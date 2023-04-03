@@ -51,6 +51,7 @@ class TitleDictionary:
     
 
     def _create_profession_dict(self):
+
         # Dictionary structure:
             # key: nconst
             # value: actors/directors names with tail as '_a' or '_d'
@@ -67,9 +68,36 @@ class TitleDictionary:
         #  'nm7171552': 'Wolfgang Menge_a',
         #  'nm0231693': 'Blake Edwards_d',
         #  'nm6446679': 'Bob Wehling_a'}
+
         profession_dict = {}
 
-        return profession_dict #return the Created {nconst:person_name_a/d} dictionary
+
+        #for each row in the dataframe
+        for index, row in self.df.iterrows():
+
+            suffix = ""
+            if row['primaryProfession'] == "director":
+                suffix = "_d"
+            else:
+                suffix = "_a"
+
+            #if this person is not in the dict already
+            if profession_dict.get(row['nconst']) == None:
+
+                #add their name to the dict plus the suffix
+                profession_dict[row['nconst']] = row['primaryName'] + suffix
+            
+            #if this person is in the dict already -Dont think this path is taken
+            else:
+                continue
+
+        
+        print(profession_dict['nm0465106'])
+
+        #return the Created {nconst:person_name_a/d} dictionary
+        return profession_dict
+
+
 
 
 #Graph Network Creation
@@ -82,6 +110,14 @@ class MovieNetwork:
 
     def add_node(self, node):
         #write code to add node to the graph (dictionary data-structure)
+        
+        #if node is not already in the dictionary
+        if self.graph.get(node) == None:
+            self.graph[node] = {}
+        else:
+            print("Vertex already in dict")
+
+
 
     def add_edge(self, node1, node2, nconst_ar_dr, weight=1):
         #node 1, node 2: nconst id's
@@ -98,6 +134,20 @@ class MovieNetwork:
         #Example weight assignment looks like:
         # {'nm1172995': {'nm0962553': 7}} here the weight 7 is nothing but the number of common
         #movies between two persons either actor/director (nm1172995 and nm0962553)
+
+        #make sure both nodes are in the graph
+        if self.graph.get(node1) == None or self.graph.get(node2) == None:
+            print("Error one of the nodes are not in the graph")
+            return
+
+        if self.graph.get(node1).get(node2):
+            print("Error edge already in graph")
+            return
+
+        self.graph[node1][node2] = weight
+        self.graph[node2][node1] = weight
+        
+
 
     def create_graph(self):
         #By following the above conditions create a graph (use only dictionary datastructure: self.graph)
