@@ -92,8 +92,6 @@ class TitleDictionary:
                 continue
 
         
-        print(profession_dict['nm0465106'])
-
         #return the Created {nconst:person_name_a/d} dictionary
         return profession_dict
 
@@ -104,8 +102,8 @@ class TitleDictionary:
 class MovieNetwork:
     def __init__(self, name_movie_dict, nconst_ar_dr):
         self.graph = {} #graph dictionary initialization
-        self.name_movie_dict = name_movie_dict #name_movie_dict is nothing but "title_dict" dictionary refer to above example in TitleDictionary.
-        self.nconst_ar_dr = nconst_ar_dr #it is "profession_dict" dictionary refer to above example in TitleDictionary.
+        self.title_dict = name_movie_dict #name_movie_dict is nothing but "title_dict" dictionary refer to above example in TitleDictionary.
+        self.prof_dict = nconst_ar_dr #it is "profession_dict" dictionary refer to above example in TitleDictionary.
 
 
     def add_node(self, node):
@@ -162,4 +160,18 @@ class MovieNetwork:
           #    'nm8742830': {'nm0962553': 16},
           #    'nm6225202': {}}
 
-        return graph
+        #create a node for each actor
+        for key in self.title_dict:
+            self.add_node(key)
+        
+        for key1 in self.title_dict:
+            for key2 in self.title_dict:
+                if key1 == key2:
+                    continue
+
+                #TODO
+
+        #return graph
+    
+    def printGraph(self):
+        print(str(self.graph))
