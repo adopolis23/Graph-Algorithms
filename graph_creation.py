@@ -139,7 +139,7 @@ class MovieNetwork:
             return
 
         if self.graph.get(node1).get(node2):
-            print("Error edge already in graph")
+            #print("Error edge already in graph")
             return
 
         self.graph[node1][node2] = weight
@@ -164,12 +164,31 @@ class MovieNetwork:
         for key in self.title_dict:
             self.add_node(key)
         
+        #for each actor in graph
         for key1 in self.title_dict:
+
+            #look at each other actor
             for key2 in self.title_dict:
+
+
+                #this skips key if it is same value
                 if key1 == key2:
                     continue
 
-                #TODO
+                similar_movies = 0
+
+                #for these two people see how many movies they have in common
+                for self_title in self.title_dict[key1]:
+                    for other_title in self.title_dict[key2]:
+                        if self_title == other_title:
+                            similar_movies = similar_movies + 1
+                
+                #if they share more than 2 movies in commin add an edge between the nodes with weight
+                #equal to how many similar movies they share
+                if similar_movies > 2:
+                    self.add_edge(key1, key2, 1, similar_movies)
+                
+        return self.graph
 
         #return graph
     
