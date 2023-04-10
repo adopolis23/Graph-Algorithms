@@ -6,6 +6,7 @@ from graph_algorithms import bfs, dfs, dijkstra, kosaraju
 with open("Graph_Output.json", "r") as file:
     data = json.load(file)
 
+
 total=0
 f=0
 
