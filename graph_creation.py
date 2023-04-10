@@ -100,6 +100,14 @@ class TitleDictionary:
 
 
 
+
+
+
+
+
+
+
+
 #Graph Network Creation
 class MovieNetwork:
     def __init__(self, name_movie_dict, nconst_ar_dr):
@@ -114,8 +122,8 @@ class MovieNetwork:
         #if node is not already in the dictionary
         if self.graph.get(node) == None:
             self.graph[node] = {}
-        else:
-            print("Vertex already in dict")
+        #else:
+            #print("Vertex already in dict")
 
 
 
@@ -135,6 +143,7 @@ class MovieNetwork:
         # {'nm1172995': {'nm0962553': 7}} here the weight 7 is nothing but the number of common
         #movies between two persons either actor/director (nm1172995 and nm0962553)
 
+        '''
         #make sure both nodes are in the graph
         if self.graph.get(node1) == None or self.graph.get(node2) == None:
             print("Error one of the nodes are not in the graph")
@@ -143,9 +152,14 @@ class MovieNetwork:
         if self.graph.get(node1).get(node2) or self.graph.get(node2).get(node1):
             #print("Error edge already in graph")
             return
+        '''
 
-        self.graph[node1][node2] = weight
-        self.graph[node2][node1] = weight
+        if self.prof_dict[node1].split("_")[1] == "a" and self.prof_dict[node2].split("_")[1] == "d":
+            self.add_node(node1) 
+        else:
+            self.add_node(node1)
+            self.graph[node1][node2] = weight
+        #self.graph[node2][node1] = weight
         
 
 
@@ -163,8 +177,8 @@ class MovieNetwork:
           #    'nm6225202': {}}
 
         #create a node for each actor
-        for key in self.title_dict:
-            self.add_node(key)
+        #for key in self.title_dict:
+            #self.add_node(key)
         
         #for each actor in graph
         for key1 in self.title_dict:
@@ -177,20 +191,26 @@ class MovieNetwork:
                 if key1 == key2:
                     continue
 
-                similar_movies = 0
 
                 #for these two people see how many movies they have in common
-                for self_title in self.title_dict[key1]:
-                    for other_title in self.title_dict[key2]:
-                        if self_title == other_title:
-                            similar_movies = similar_movies + 1
+                similar_movies = len(set(self.title_dict[key1]).intersection(self.title_dict[key2]))
                 
+
                 #if they share more than 2 movies in commin add an edge between the nodes with weight
                 #equal to how many similar movies they share
                 if similar_movies > 2:
                     self.add_edge(key1, key2, 1, similar_movies)
                 
         return self.graph
+
+
+
+
+
+
+
+
+
 
         #return graph
     
