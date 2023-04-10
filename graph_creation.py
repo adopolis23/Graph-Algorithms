@@ -1,10 +1,12 @@
 #Dictionary Creation
 import pandas as pd
+from unidecode import unidecode
 
 class TitleDictionary:
 
     def __init__(self, csv_path):
         self.df = pd.read_csv(csv_path)
+        self.df["primaryTitle"] = self.df["primaryTitle"].apply(unidecode)
         self.title_dict = self._create_title_dict()
         self.profession_dict = self._create_profession_dict()
 
@@ -138,7 +140,7 @@ class MovieNetwork:
             print("Error one of the nodes are not in the graph")
             return
 
-        if self.graph.get(node1).get(node2):
+        if self.graph.get(node1).get(node2) or self.graph.get(node2).get(node1):
             #print("Error edge already in graph")
             return
 
