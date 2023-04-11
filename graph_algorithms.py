@@ -1,3 +1,7 @@
+
+
+
+
 def bfs(graph, start_node, search_node=None):
     # graph: a dictionary representing the graph to be traversed.
     # start_node: a string representing the starting node of the traversal.
@@ -10,14 +14,61 @@ def bfs(graph, start_node, search_node=None):
         #1. If search_node is provided, the function returns 1 if the node is found during the search and 0 otherwise.
         #2. If search_node is not provided, the function returns a list containing the order in which the nodes were visited during the search.
 
+    #if the node to search for is where we start then no need to search
+    if start_node == search_node:
+        return 1
+
+    #data structure being used for the search
+    queue = []
+    queue.append(start_node)
+    curr_index = 0 
+
+
+
+    while curr_index < len(queue):
+        
+        for connected_node in graph[queue[curr_index]]:
+            if connected_node == search_node:
+                return 1
+
+            if connected_node not in queue:
+                queue.append(connected_node)
+
+        curr_index = curr_index + 1
+
+    if search_node == None:
+        return queue
+    
+
+
+    return 0
+
+    '''
     #Useful code snippets (not necessary but you can use if required)
     if search_node and node == search_node:
         return 1  # search node found
 
     if search_node is not None:
         return 0  # search node not found
+    '''
 
-    return path  # search node not provided, return entire path [list of nconst values of nodes visited]
+    #return path  # search node not provided, return entire path [list of nconst values of nodes visited]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def dfs(graph, start_node, visited=None, path=None, search_node=None):
@@ -39,6 +90,37 @@ def dfs(graph, start_node, visited=None, path=None, search_node=None):
         # 1. If search_node is provided, the function returns 1 if the node is found and 0 if it is not found.
         # 2. If search_node is not provided, the function returns a list containing the order in which the nodes were visited during the search.
 
+
+    if start_node == search_node:
+        return 1
+
+
+    stack = []
+    visited_nodes = []
+
+    stack.append(start_node)
+
+    while stack:
+        curr_node = stack.pop()
+
+        if curr_node not in visited_nodes:
+            visited_nodes.append(curr_node)
+
+            for connected_node in graph[curr_node]:
+                if connected_node == search_node:
+                    return 1
+
+                stack.append(connected_node)
+
+    
+    if search_node == None:
+        return visited_nodes
+
+    return 0
+
+
+
+    '''
     #Useful code snippets (not necessary but you can use if required)
     if start_node == search_node:
         return 1 # search node found
@@ -46,7 +128,8 @@ def dfs(graph, start_node, visited=None, path=None, search_node=None):
     if search_node is not None:
         return 0  # search node not found
 
-    return path  # search node not provided, return entire path [list of nconst id's of nodes visited]
+    return path  # search node not provided, return entire path [list of nconst id's of nodes visited] 
+    '''
 
 
 
