@@ -150,7 +150,43 @@ def dijkstra(graph, start_node, end_node):
                 #2.3 The third element is Hop Count between start_node and end_node.
 
     # Return the shortest path and distances
-    return [path, distance, hop_count]
+    dist = {}
+    visitedSet = {}
+
+    #distance to each vertex is initially infinity
+    for key in graph:
+        dist[key] = 2147483647
+        visitedSet[key] = False
+
+    #distance to start node is 0
+    dist[start_node] = 0
+
+    #loop number of times equal to number of nodes
+    for key1 in graph:
+        min_node = end_node
+
+
+        #find the key with the min distance that has not been visited
+        min = 2147483647
+        for key in graph:
+            if dist[key] < min and visitedSet[key] == False:
+                min = dist[key]
+                min_node = key
+        
+        visitedSet[min_node] = True
+
+        for key2 in graph[key1]:
+            if graph[key1][key2] > 0 and visitedSet[key2] == False and dist[key2] > dist[key1] + graph[key1][key2]:
+                dist[key2] = dist[key1] + graph[key1][key2]
+        
+    print(dist)
+
+
+
+    
+    
+    
+    #return [path, distance, hop_count]
 
 
 

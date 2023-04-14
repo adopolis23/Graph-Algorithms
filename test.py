@@ -11,13 +11,10 @@ mn = MovieNetwork(td.title_dict, td.profession_dict)
 mn.create_graph()
 
 
-with open("Graph_Output.json", "r") as file:
-    data = json.load(file)
+from graph_algorithms import dijkstra
 
 
-print(mn.graph["nm0465106"])
-print(data["movie_network_test"]["nm0465106"])
-
+dijkstra(mn.graph, "nm4490789", "nm6949683")
 
 #print(str(mn.graph['nm0465106']))
 #mn.printGraph()
