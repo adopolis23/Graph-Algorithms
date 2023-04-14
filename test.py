@@ -14,7 +14,7 @@ mn.create_graph()
 from graph_algorithms import dijkstra
 
 
-dijkstra(mn.graph, "nm4490789", "nm6949683")
+print(dijkstra(mn.graph, "nm0465106", "nm4337938"))
 
 #print(str(mn.graph['nm0465106']))
 #mn.printGraph()

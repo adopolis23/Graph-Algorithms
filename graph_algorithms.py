@@ -152,41 +152,74 @@ def dijkstra(graph, start_node, end_node):
     # Return the shortest path and distances
     dist = {}
     visitedSet = {}
+    prevNode = {}
 
     #distance to each vertex is initially infinity
     for key in graph:
         dist[key] = 2147483647
         visitedSet[key] = False
+        prevNode[key] = 0
 
     #distance to start node is 0
     dist[start_node] = 0
 
     #loop number of times equal to number of nodes
     for key1 in graph:
-        min_node = end_node
+
 
 
         #find the key with the min distance that has not been visited
+        #min_node = end_node
         min = 2147483647
         for key in graph:
             if dist[key] < min and visitedSet[key] == False:
                 min = dist[key]
                 min_node = key
+        #########################
         
+        #set the status of this min node to visited
         visitedSet[min_node] = True
 
+        #for every unvisited neighbor of the current node
         for key2 in graph[key1]:
-            if graph[key1][key2] > 0 and visitedSet[key2] == False and dist[key2] > dist[key1] + graph[key1][key2]:
+            if visitedSet[key2] == False and dist[key2] > dist[key1] + graph[key1][key2]:
+                
+                #update the new shorst distance
                 dist[key2] = dist[key1] + graph[key1][key2]
+
+                #update the prev node list
+                prevNode[key2] = key1
         
-    print(dist)
+    #print(dist)
+
+    #if dist to end node is still max then node is unreachable
+    print("end node is: " + str(end_node))
+    print("dist is: " + str(dist[end_node]))
+    if dist[end_node] == 2147483647:
+        print("Node Unreachable")
+        return 0
+
+    path = []
+
+    #start with the ending node and add to the path
+    curr_node = end_node
+    path.append(curr_node)
+
+    #go backward through the prev node dict and add to front of path list
+    while(curr_node != start_node):
+        curr_node = prevNode[curr_node]
+        path.insert(0, curr_node)
 
 
+    print(path)
 
+    #need to return shortest dist(path), total dist, hop count
+
+    total_dist = dist[end_node]
     
+    hop_count = len(path)-1
     
-    
-    #return [path, distance, hop_count]
+    return [path, total_dist, hop_count]
 
 
 
