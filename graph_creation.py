@@ -115,6 +115,7 @@ class MovieNetwork:
         self.title_dict = name_movie_dict #name_movie_dict is nothing but "title_dict" dictionary refer to above example in TitleDictionary.
         self.prof_dict = nconst_ar_dr #it is "profession_dict" dictionary refer to above example in TitleDictionary.
 
+        self.inverse_graph = {}
 
     def add_node(self, node):
         #write code to add node to the graph (dictionary data-structure)
@@ -211,8 +212,51 @@ class MovieNetwork:
 
 
 
+    def add_inverse_node(self, node):
+        #write code to add node to the graph (dictionary data-structure)
+        
+        #if node is not already in the dictionary
+        if self.inverse_graph.get(node) == None:
+            self.inverse_graph[node] = {}
 
-        #return graph
-    
+
+    def add_inverse_edge(self, node1, node2, nconst_ar_dr, weight=1):
+
+            if self.prof_dict[node1].split("_")[1] == "d" and self.prof_dict[node2].split("_")[1] == "a":
+                self.add_inverse_node(node1) 
+            else:
+                self.add_inverse_node(node1)
+                self.inverse_graph[node1][node2] = weight
+
+
+
+    def create_inverse_graph(self):
+
+        #for each actor in graph
+        for key1 in self.title_dict:
+
+            #look at each other actor
+            for key2 in self.title_dict:
+
+
+                #this skips key if it is same value
+                if key1 == key2:
+                    continue
+
+
+                #for these two people see how many movies they have in common
+                similar_movies = len(set(self.title_dict[key1]).intersection(self.title_dict[key2]))
+                
+
+                #if they share more than 2 movies in commin add an edge between the nodes with weight
+                #equal to how many similar movies they share
+                if similar_movies > 2:
+                    self.add_inverse_edge(key1, key2, 1, similar_movies)
+                
+        return self.inverse_graph
+
+
+
+    #return graph
     def printGraph(self):
         print(str(self.graph))

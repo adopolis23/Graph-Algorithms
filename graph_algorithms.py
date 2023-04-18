@@ -193,8 +193,8 @@ def dijkstra(graph, start_node, end_node):
     #print(dist)
 
     #if dist to end node is still max then node is unreachable
-    print("end node is: " + str(end_node))
-    print("dist is: " + str(dist[end_node]))
+    #print("end node is: " + str(end_node))
+    #print("dist is: " + str(dist[end_node]))
     if dist[end_node] == 2147483647:
         print("Node Unreachable")
         return 0
@@ -211,7 +211,7 @@ def dijkstra(graph, start_node, end_node):
         path.insert(0, curr_node)
 
 
-    print(path)
+    #print(path)
 
     #need to return shortest dist(path), total dist, hop count
 
@@ -224,8 +224,38 @@ def dijkstra(graph, start_node, end_node):
 
 
 
+
+
+
+def DFSUtil(node,visitedSet, graph, tmpSet):
+        # Mark the current node as visited and print it
+        visitedSet.append(node)
+        tmpSet.append(node)
+        #Recur for all the vertices adjacent to this vertex
+        for connected_node in graph[node]:
+            if connected_node not in visitedSet:
+                DFSUtil(connected_node,visitedSet, graph, tmpSet)
+
+
+def fillOrder(node,visitedSet,stack,graph):
+
+    #add node to visited set
+    visitedSet.append(node)
+
+    #for every connected node visit that by recursion
+    for connected_node in graph[node]:
+        if connected_node not in visitedSet:
+            fillOrder(connected_node, visitedSet, stack, graph)
+
+    #add vertex to the stack
+    stack.append(node)
+
+
+
+
+
 # (strongly connected components)
-def kosaraju(graph):
+def kosaraju(graph, inverse_graph):
     # graph: a dictionary representing the graph where the keys are the nodes and the values
             # are dictionaries representing the edges and their weights.
     #Note: Here you need to call dfs function multiple times so you can Implement seperate
@@ -234,4 +264,29 @@ def kosaraju(graph):
     #The output:
         #list of strongly connected components in the graph,
           #where each component is a list of nodes. each component:[nconst2, nconst3, nconst8,...] -> list of nconst id's.
+    
+    components = []
+
+
+    stack = []
+    visitedSet = []
+
+    for node in graph:
+        if node not in visitedSet:
+            fillOrder(node, visitedSet, stack, graph)
+
+
+    #reset the visited set
+    visitedSet.clear()
+
+    tmpSet = []
+
+    while stack:
+        top_of_stack = stack.pop()
+        if top_of_stack not in visitedSet:
+            DFSUtil(top_of_stack, visitedSet, inverse_graph, tmpSet)
+            components.append(tmpSet)
+            tmpSet.clear()
+
+
     return components

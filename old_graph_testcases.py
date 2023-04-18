@@ -3,8 +3,9 @@ import json
 from graph_creation import TitleDictionary, MovieNetwork
 from graph_algorithms import bfs, dfs, dijkstra, kosaraju
 
-with open("Graph_Output.json", "r",encoding="iso-8859-1") as file:
+with open("Graph_Output.json", "r") as file:
     data = json.load(file)
+
 
 total=0
 f=0
@@ -15,7 +16,6 @@ nconst_ar_dr = td.profession_dict
 
 movie_network = MovieNetwork(nconst_title, nconst_ar_dr)
 graph = movie_network.create_graph()
-inverse_graph = movie_network.create_inverse_graph()
 
 def dictionary_test():
     global total
@@ -119,90 +119,43 @@ def testcase_2_3():
 
     return testcase_2_3
 
-def testcase_3_1():
+def testcase_3():
     global total
     global f
-    testcase_3_1 = dijkstra(graph, "nm4556923", "nm5822910")
-    if(data["testcase_3_1"][0]==testcase_3_1[0] and data["testcase_3_1"][1]==testcase_3_1[1] and data["testcase_3_1"][2]==testcase_3_1[2]):
-        print("\nTestCase 3_1 Passed")
+    testcase_3 = dijkstra(graph, "nm4556923", "nm5822910")
+    if(data["testcase_3"][0]==testcase_3[0] and data["testcase_3"][1]==testcase_3[1] and data["testcase_3"][2]==testcase_3[2]):
+        print("\nTestCase 3 Passed")
     else:
-        if(data["testcase_3_1"][0]==testcase_3_1[0]):
-            print("\nYour path for TestCase 3_1 is passed")
+        if(data["testcase_3"][0]==testcase_3[0]):
+            print("\nYour path for TestCase 3 is passed")
         else:
-            print("\nYour path for TestCase 3_1 is InCorrect")
-        if(data["testcase_3_1"][1]==testcase_3_1[1]):
-            print("\nYour Sum of minimum distances for TestCase 3_1 is Correct")
+            print("\nYour path for TestCase 3 is InCorrect")
+        if(data["testcase_3"][1]==testcase_3[1]):
+            print("\nYour Sum of minimum distances for TestCase 3 is Correct")
         else:
-            print("\nYour Sum of minimum distances for TestCase 3_1 is InCorrect")
-        if(data["testcase_3_1"][2]==testcase_3_1[2]):
-            print("\nYour Hop count from start node to end node for TestCase 3_1 is Correct")
+            print("\nYour Sum of minimum distances for TestCase 3 is InCorrect")
+        if(data["testcase_3"][2]==testcase_3[2]):
+            print("\nYour Hop count from start node to end node for TestCase 3 is Correct")
         else:
-            print("\nYour Hop count from start node to end node for TestCase 3_1 is InCorrect")
+            print("\nYour Hop count from start node to end node for TestCase 3 is InCorrect")
 
         f+=1
     total+=1
 
-    return testcase_3_1
+    return testcase_3
 
-def testcase_3_2():
+def testcase_4():
     global total
     global f
-    testcase_3_2 = dijkstra(graph, "nm0465106", "nm1118718")
-    if(data["testcase_3_2"][0]==testcase_3_2[0] and data["testcase_3_2"][1]==testcase_3_2[1] and data["testcase_3_2"][2]==testcase_3_2[2]):
-        print("\nTestCase 3_2 Passed")
-    else:
-        if(data["testcase_3_2"][0]==testcase_3_2[0]):
-            print("\nYour path for TestCase 3_2 is passed")
-        else:
-            print("\nYour path for TestCase 3_2 is InCorrect")
-        if(data["testcase_3_2"][1]==testcase_3_2[1]):
-            print("\nYour Sum of minimum distances for TestCase 3_2 is Correct")
-        else:
-            print("\nYour Sum of minimum distances for TestCase 3_2 is InCorrect")
-        if(data["testcase_3_2"][2]==testcase_3_2[2]):
-            print("\nYour Hop count from start node to end node for TestCase 3_2 is Correct")
-        else:
-            print("\nYour Hop count from start node to end node for TestCase 3_2 is InCorrect")
-
-        f+=1
-    total+=1
-
-    return testcase_3_2
-
-def testcase_4_1():
-    global total
-    global f
-    testcase_4_1 = kosaraju(graph, inverse_graph)
-    if(len(data["testcase_4_1"])==len(testcase_4_1)):
-        print("\nTestCase 4_1 Passed")
+    testcase_4 = kosaraju(graph)
+    if(len(data["testcase_4"])==len(testcase_4)):
+        print("\nTestCase 4 Passed")
     else:
         print("\nTotal number of strongly connected components for TestCase 4 is InCorrect")
         f+=1
     total+=1
 
-    return testcase_4_1
-
-def check_list_of_tuples_equality(list1, list2):
-    # Convert the lists to sets of frozensets
-    set1 = set(frozenset(item) for item in list1)
-    set2 = set(frozenset(item) for item in list2)
-
-    # Compare the sets for equality
-    return set1 == set2
-
-def testcase_4_2():
-    global total
-    global f
-    testcase_4_2 = kosaraju(graph, inverse_graph)
-    if(check_list_of_tuples_equality(testcase_4_2,data["testcase_4_2"])==True):
-        print("\nTestCase 4_2 Passed")
-    else:
-        print("\nTestCase 4_2 Failed")
-        f+=1
-    total+=1
-
-    return testcase_4_1
-
+    return testcase_4
 
 testcase = {}
 
@@ -214,9 +167,7 @@ testcase['testcase_1_3'] = testcase_1_3()
 testcase['testcase_2_1'] = testcase_2_1()
 testcase['testcase_2_2'] = testcase_2_2()
 testcase['testcase_2_3'] = testcase_2_3()
-testcase['testcase_3_1'] = testcase_3_1()
-testcase['testcase_3_2'] = testcase_3_2()
-testcase['testcase_4_1'] = testcase_4_1()
-testcase['testcase_4_2'] = testcase_4_2()
+testcase['testcase_3'] = testcase_3()
+testcase['testcase_4'] = testcase_4()
 
 print("\n\nTotal Test Cases Passed : {}\nTotal Test Cases Failed : {}".format(total-f,f))
